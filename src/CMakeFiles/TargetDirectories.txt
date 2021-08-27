@@ -1,0 +1,3 @@
+/home/moises/Documents/faculdade/3_periodo/poo/lista1/img/CMakeFiles/rebuild_cache.dir
+/home/moises/Documents/faculdade/3_periodo/poo/lista1/img/CMakeFiles/testcv.dir
+/home/moises/Documents/faculdade/3_periodo/poo/lista1/img/CMakeFiles/edit_cache.dir
