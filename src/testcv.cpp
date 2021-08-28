@@ -4,6 +4,7 @@
 #include <opencv2/imgproc.hpp>
 #include <string>
 #include <iostream>
+#include <filesystem>
 
 using namespace std;
 using namespace cv;
@@ -13,6 +14,7 @@ void applyBlur(Mat imgSrc, Mat imgDst, String imgName, String folderpath);
 void applyBW(Mat imgSrc, Mat imgDst, String imgName, String folderpath);
 void applyCanny(Mat imgSrc, Mat imgDst, String imgName, String folderpath);
 void applyRotate(Mat imgSrc, Mat imgDst, String imgName, String folderpath);
+void showFiles(String folderpath);
 
 /* Main func */
 int main()
@@ -61,4 +63,13 @@ void applyRotate(Mat imgSrc, Mat imgDst, String imgName, String folderpath)
 	flip(imgSrc, imgDst, -1);
 
 	imwrite(folderpath + imgName, imgDst);
+}
+
+void showFiles(String folderpath)
+{
+	string path = folderpath;
+	for (const auto& entry : filesystem::directory_iterator(path))
+		cout << entry.path();
+	system("pause");
+
 }
