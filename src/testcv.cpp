@@ -5,6 +5,7 @@
 #include <string>
 #include <iostream>
 #include <filesystem>
+#include <chrono>
 
 using namespace std;
 using namespace cv;
@@ -19,20 +20,66 @@ void showFiles(String folderpath);
 /* Main func */
 int main()
 {
-	String folderpath = "../dataset/";
+	String folderpath;// = "C:\\Users\\luizf\\Pictures\\images_for_tests";
 	vector<String> filenames;
+	char flagBl, flagBw, flagCa, flagRo;
+	
+	cout << "\n\t\t*** Data Augmentation ***\n" << endl;
+	cout << "Type the folderpath: ";
+	cin >> folderpath;
+
 	glob(folderpath, filenames);
 
+	cout << "\n\tNow, choose the options of efects: \n" << endl;
+	cout << "Gaussian Blur [y/n]: ";
+	cin >> flagBl;
+	cout << "Black and White [y/n]: ";
+	cin >> flagBw;
+	cout << "Canny [y/n]: ";
+	cin >> flagCa;
+	cout << "Rotate [y/n]: ";
+	cin >> flagRo;
+
+	// make all lower
+	tolower(flagBl);
+	tolower(flagBw);
+	tolower(flagCa);
+	tolower(flagRo);
+
+	auto t1 = chrono::high_resolution_clock::now(); // check the execution time
 	for (size_t i = 0; i < filenames.size(); i++)
-	{
+	{	
+		// This is for take just the name of the file 
+		int find_the_bar = filenames[i].rfind("\\"); // In the linux, this is probably will change
+		int find_the_point = filenames[i].rfind(".");
+		string nameOut = filenames[i].substr(find_the_bar, find_the_point - find_the_bar);
 		Mat src = imread(filenames[i]);
 		Mat dst = src.clone();
 
-		applyCanny(src, dst, filenames[i]+"_canny.jpg", folderpath);
-		applyBW(src, dst, filenames[i]+"_bw.jpg", folderpath);
-		applyBlur(src, dst, filenames[i]+"_blur.jpg", folderpath);
-		applyRotate(src, dst, filenames[i]+"_rotate.jpg", folderpath);
+		if (flagBl == 'y')
+		{
+			applyBlur(src, dst, nameOut + "_blur.jpg", folderpath);
+		}
+		if (flagBw == 'y')
+		{ 
+			applyBW(src, dst, nameOut + "_bw.jpg", folderpath);
+		}
+		if (flagCa == 'y')
+		{
+			applyCanny(src, dst, nameOut + "_canny.jpg", folderpath);
+		}
+		if (flagRo == 'y')
+		{
+			applyRotate(src, dst, nameOut + "_rotate.jpg", folderpath);
+		}
+
+		cout << "Progess: " << i + 1 << " of " << filenames.size() << endl;
 	}
+
+	auto t2 = chrono::high_resolution_clock::now();
+	chrono::duration<double, std::milli> ms = t2 - t1;
+	cout << "\nFinish.\n" << endl;
+	cout << "Execution time : " << ms.count() << " ms" << endl;
 
 	return 0;
 }
@@ -65,6 +112,8 @@ void applyRotate(Mat imgSrc, Mat imgDst, String imgName, String folderpath)
 	imwrite(folderpath + imgName, imgDst);
 }
 
+// Não consegui rodar o filesystem aq, ai comentei por enqt
+/*
 void showFiles(String folderpath)
 {
 	string path = folderpath;
@@ -73,3 +122,4 @@ void showFiles(String folderpath)
 	system("pause");
 
 }
+*/
