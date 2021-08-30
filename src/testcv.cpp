@@ -15,15 +15,16 @@ void applyBlur(Mat imgSrc, Mat imgDst, String imgName, String folderpath);
 void applyBW(Mat imgSrc, Mat imgDst, String imgName, String folderpath);
 void applyCanny(Mat imgSrc, Mat imgDst, String imgName, String folderpath);
 void applyRotate(Mat imgSrc, Mat imgDst, String imgName, String folderpath);
+void applyMirror(Mat imgSrc, Mat imgDst, String imgName, String folderpath);
 void showFiles(String folderpath);
 
 /* Main func */
 int main()
 {
-	String folderpath;// = "C:\\Users\\luizf\\Pictures\\images_for_tests";
+	String folderpath = "C:\\Users\\Artur\\Desktop\\Facu\\poo\\src\\teste";
 	vector<String> filenames;
-	char flagBl, flagBw, flagCa, flagRo;
-	
+	char flagBl, flagBw, flagCa, flagRo, flagMi;
+
 	cout << "\n\t\t*** Data Augmentation ***\n" << endl;
 	cout << "Type the folderpath: ";
 	cin >> folderpath;
@@ -39,16 +40,20 @@ int main()
 	cin >> flagCa;
 	cout << "Rotate [y/n]: ";
 	cin >> flagRo;
+	cout << "Mirror [y/n]: ";
+	cin >> flagMi;
+
 
 	// make all lower
 	tolower(flagBl);
 	tolower(flagBw);
 	tolower(flagCa);
 	tolower(flagRo);
+	tolower(flagMi);
 
 	auto t1 = chrono::high_resolution_clock::now(); // check the execution time
 	for (size_t i = 0; i < filenames.size(); i++)
-	{	
+	{
 		// This is for take just the name of the file 
 		int find_the_bar = filenames[i].rfind("\\"); // In the linux, this is probably will change
 		int find_the_point = filenames[i].rfind(".");
@@ -61,7 +66,7 @@ int main()
 			applyBlur(src, dst, nameOut + "_blur.jpg", folderpath);
 		}
 		if (flagBw == 'y')
-		{ 
+		{
 			applyBW(src, dst, nameOut + "_bw.jpg", folderpath);
 		}
 		if (flagCa == 'y')
@@ -71,6 +76,10 @@ int main()
 		if (flagRo == 'y')
 		{
 			applyRotate(src, dst, nameOut + "_rotate.jpg", folderpath);
+		}
+		if (flagMi == 'y')
+		{
+			applyMirror(src, dst, nameOut + "_mirror.jpg", folderpath);
 		}
 
 		cout << "Progess: " << i + 1 << " of " << filenames.size() << endl;
@@ -112,7 +121,14 @@ void applyRotate(Mat imgSrc, Mat imgDst, String imgName, String folderpath)
 	imwrite(folderpath + imgName, imgDst);
 }
 
-// Não consegui rodar o filesystem aq, ai comentei por enqt
+void applyMirror(Mat imgSrc, Mat imgDst, String imgName, String folderpath)
+{
+	flip(imgSrc, imgDst, 1);
+
+	imwrite(folderpath + imgName, imgDst);
+}
+
+// NÃ£o consegui rodar o filesystem aq, ai comentei por enqt
 /*
 void showFiles(String folderpath)
 {
@@ -120,6 +136,5 @@ void showFiles(String folderpath)
 	for (const auto& entry : filesystem::directory_iterator(path))
 		cout << entry.path();
 	system("pause");
-
 }
 */
