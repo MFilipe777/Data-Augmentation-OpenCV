@@ -14,7 +14,7 @@ using namespace cv;
 void applyBlur(Mat imgSrc, Mat imgDst, String imgName, String folderpath);
 void applyBW(Mat imgSrc, Mat imgDst, String imgName, String folderpath);
 void applyCanny(Mat imgSrc, Mat imgDst, String imgName, String folderpath);
-void applyRotate(Mat imgSrc, Mat imgDst, String imgName, String folderpath);
+void applyRotate(Mat imgSrc, Mat imgDst, String imgName, String folderpath,int degree);
 void applyMirror(Mat imgSrc, Mat imgDst, String imgName, String folderpath);
 void showFiles(String folderpath);
 
@@ -24,10 +24,10 @@ int main()
 	String folderpath = "C:\\Users\\Artur\\Desktop\\Facu\\poo\\src\\teste";
 	vector<String> filenames;
 	char flagBl, flagBw, flagCa, flagRo, flagMi;
+	char degree;
 
 	cout << "\n\t\t*** Data Augmentation ***\n" << endl;
 	cout << "Type the folderpath: ";
-	cin >> folderpath;
 
 	glob(folderpath, filenames);
 
@@ -38,8 +38,16 @@ int main()
 	cin >> flagBw;
 	cout << "Canny [y/n]: ";
 	cin >> flagCa;
+	
 	cout << "Rotate [y/n]: ";
 	cin >> flagRo;
+	tolower(flagRo);
+	if (flagRo == 'y') 
+	{
+		cout << "Degree:\n1 - 90 degrees \n2 - 180 degrees \n3 - 270 degrees \nChoice: ";
+		cin >> degree;
+	}
+
 	cout << "Mirror [y/n]: ";
 	cin >> flagMi;
 
@@ -48,7 +56,6 @@ int main()
 	tolower(flagBl);
 	tolower(flagBw);
 	tolower(flagCa);
-	tolower(flagRo);
 	tolower(flagMi);
 
 	auto t1 = chrono::high_resolution_clock::now(); // check the execution time
@@ -75,7 +82,7 @@ int main()
 		}
 		if (flagRo == 'y')
 		{
-			applyRotate(src, dst, nameOut + "_rotate.jpg", folderpath);
+			applyRotate(src, dst, nameOut + "_rotate.jpg", folderpath, degree);
 		}
 		if (flagMi == 'y')
 		{
@@ -114,9 +121,22 @@ void applyCanny(Mat imgSrc, Mat imgDst, String imgName, String folderpath)
 	imwrite(folderpath + imgName, imgDst);
 }
 
-void applyRotate(Mat imgSrc, Mat imgDst, String imgName, String folderpath)
-{
-	flip(imgSrc, imgDst, -1);
+void applyRotate(Mat imgSrc, Mat imgDst, String imgName, String folderpath, int degree)
+{	
+	if (degree == 1)
+	{
+		rotate(imgSrc, imgDst, ROTATE_90_CLOCKWISE);
+	}
+
+	else if (degree == 2)
+	{
+		rotate(imgSrc, imgDst, ROTATE_180);
+	}
+
+	else
+	{
+		rotate(imgSrc, imgDst, ROTATE_90_COUNTERCLOCKWISE);
+	}
 
 	imwrite(folderpath + imgName, imgDst);
 }
