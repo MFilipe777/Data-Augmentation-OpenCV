@@ -28,6 +28,7 @@ int main()
 
 	cout << "\n\t\t*** Data Augmentation ***\n" << endl;
 	cout << "Type the folderpath: ";
+	cin >> folderpath;
 
 	glob(folderpath, filenames);
 
@@ -127,17 +128,14 @@ void applyRotate(Mat imgSrc, Mat imgDst, String imgName, String folderpath, int 
 	{
 		rotate(imgSrc, imgDst, ROTATE_90_CLOCKWISE);
 	}
-
 	else if (degree == 2)
 	{
 		rotate(imgSrc, imgDst, ROTATE_180);
 	}
-
 	else
 	{
 		rotate(imgSrc, imgDst, ROTATE_90_COUNTERCLOCKWISE);
 	}
-
 	imwrite(folderpath + imgName, imgDst);
 }
 
