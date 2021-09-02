@@ -1,27 +1,27 @@
+#include <chrono>
+#include <filesystem>
+#include <iostream>
 #include "opencv2/core/core.hpp"
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 #include <string>
-#include <iostream>
-#include <filesystem>
-#include <chrono>
 
-using namespace std;
-using namespace cv;
+using namespace std; // Standard Library
+using namespace cv; // Computer Vision Library
 
 /* Kernel's functions prototypes */
 void applyBlur(Mat imgSrc, Mat imgDst, String imgName, String folderpath);
 void applyBW(Mat imgSrc, Mat imgDst, String imgName, String folderpath);
 void applyCanny(Mat imgSrc, Mat imgDst, String imgName, String folderpath);
-void applyRotate(Mat imgSrc, Mat imgDst, String imgName, String folderpath,int degree);
 void applyMirror(Mat imgSrc, Mat imgDst, String imgName, String folderpath);
-void showFiles(String folderpath);
+void applyRotate(Mat imgSrc, Mat imgDst, String imgName, String folderpath, int degree);
+//void showFiles(String folderpath);
 
 /* Main func */
 int main()
 {
-	String folderpath = "C:\\Users\\Artur\\Desktop\\Facu\\poo\\src\\teste";
+	String folderpath;// = "C:\\Users\\Artur\\Desktop\\Facu\\poo\\src\\teste";
 	vector<String> filenames;
 	char flagBl, flagBw, flagCa, flagRo, flagMi;
 	char degree;
@@ -39,7 +39,6 @@ int main()
 	cin >> flagBw;
 	cout << "Canny [y/n]: ";
 	cin >> flagCa;
-	
 	cout << "Rotate [y/n]: ";
 	cin >> flagRo;
 	tolower(flagRo);
@@ -48,7 +47,6 @@ int main()
 		cout << "Degree:\n1 - 90 degrees \n2 - 180 degrees \n3 - 270 degrees \nChoice: ";
 		cin >> degree;
 	}
-
 	cout << "Mirror [y/n]: ";
 	cin >> flagMi;
 
@@ -122,6 +120,13 @@ void applyCanny(Mat imgSrc, Mat imgDst, String imgName, String folderpath)
 	imwrite(folderpath + imgName, imgDst);
 }
 
+void applyMirror(Mat imgSrc, Mat imgDst, String imgName, String folderpath)
+{
+	flip(imgSrc, imgDst, 1);
+
+	imwrite(folderpath + imgName, imgDst);
+}
+
 void applyRotate(Mat imgSrc, Mat imgDst, String imgName, String folderpath, int degree)
 {	
 	if (degree == 1)
@@ -136,13 +141,6 @@ void applyRotate(Mat imgSrc, Mat imgDst, String imgName, String folderpath, int 
 	{
 		rotate(imgSrc, imgDst, ROTATE_90_COUNTERCLOCKWISE);
 	}
-	imwrite(folderpath + imgName, imgDst);
-}
-
-void applyMirror(Mat imgSrc, Mat imgDst, String imgName, String folderpath)
-{
-	flip(imgSrc, imgDst, 1);
-
 	imwrite(folderpath + imgName, imgDst);
 }
 
