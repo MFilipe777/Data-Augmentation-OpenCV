@@ -15,7 +15,6 @@ void applyBW(Mat imgSrc, Mat imgDst, String imgName, String folderpath);
 void applyCanny(Mat imgSrc, Mat imgDst, String imgName, String folderpath);
 void applyMirror(Mat imgSrc, Mat imgDst, String imgName, String folderpath);
 void applyRotate(Mat imgSrc, Mat imgDst, String imgName, String folderpath, int degree);
-//void showFiles(String folderpath);
 
 /* Main func */
 int main()
