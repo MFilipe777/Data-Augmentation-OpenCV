@@ -1,5 +1,4 @@
 #include <chrono>
-#include <filesystem>
 #include <iostream>
 #include "opencv2/core/core.hpp"
 #include <opencv2/imgcodecs.hpp>
@@ -143,14 +142,3 @@ void applyRotate(Mat imgSrc, Mat imgDst, String imgName, String folderpath, int 
 	}
 	imwrite(folderpath + imgName, imgDst);
 }
-
-// Não consegui rodar o filesystem aq, ai comentei por enqt
-/*
-void showFiles(String folderpath)
-{
-	string path = folderpath;
-	for (const auto& entry : filesystem::directory_iterator(path))
-		cout << entry.path();
-	system("pause");
-}
-*/
