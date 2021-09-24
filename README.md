@@ -1,2 +1,5 @@
-# Projeto-POO
-Projeto 1 da disciplina de Programação Orientada a Objetos
+# Data Augmentation with OpenCV
+A simple C++ script for data augmentation with OpenCV.
+
+- Dependencies:
+OpenCV
